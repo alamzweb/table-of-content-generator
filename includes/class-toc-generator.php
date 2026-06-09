@@ -31,7 +31,6 @@ class TOC_Core_Generator {
 			return $content;
 		}
 
-		// Ensure we don't end up processing nested shortcodes recursively
 		if ( str_contains( $content, 'class="table-of-content-generator-container"' ) ) {
 			return $content;
 		}
@@ -53,7 +52,6 @@ class TOC_Core_Generator {
 
 		$this->active_tags = $tags;
 		
-		// Match headings using a precise execution thread pattern
 		$pattern = '/<h([' . implode( '', array_map( function( $t ) {
 			return substr( $t, 1 );
 		}, $tags ) ) . '])([^>]*)>(.*?)<\/h\1>/is';
@@ -77,7 +75,6 @@ class TOC_Core_Generator {
 				continue;
 			}
 
-			// Capture or generate anchor targets securely
 			if ( preg_match( '/id=["\']([^"\']+)["\']/i', $attributes, $id_match ) ) {
 				$slug_anchor = sanitize_title( $id_match[1] );
 			} else {
@@ -109,7 +106,6 @@ class TOC_Core_Generator {
 			return $content;
 		}
 
-		// Apply transformed id injections back to main content body markup
 		if ( ! empty( $modified_map ) ) {
 			$content = str_replace( array_keys( $modified_map ), array_values( $modified_map ), $content );
 		}
@@ -127,7 +123,6 @@ class TOC_Core_Generator {
 		} elseif ( 'after_content' === $placement ) {
 			return $content . $toc_html;
 		} elseif ( 'before_first_heading' === $placement ) {
-			// Precise needle target execution array slice logic
 			$first_heading_raw = array_key_first( $modified_map ) ? array_key_first( $modified_map ) : $matches[0][0];
 			$pos = strpos( $content, $first_heading_raw );
 			if ( false !== $pos ) {
@@ -142,10 +137,10 @@ class TOC_Core_Generator {
 		$preset             = $this->settings->get( 'style_preset', 'modern' );
 		$is_collapsible     = $this->settings->get( 'enable_collapsible', 1 );
 		$is_sticky          = $this->settings->get( 'enable_sticky', 0 );
+		$sticky_side        = $this->settings->get( 'sticky_position', 'right' );
 		$is_highlight_ready = $this->settings->get( 'enable_highlight', 1 );
 		$show_numbers       = $this->settings->get( 'show_numbering', 0 );
 
-		// Build Inline CSS Variable Block
 		$bg     = $this->settings->get( 'bg_color', '#ffffff' );
 		$border = $this->settings->get( 'border_color', '#e2e8f0' );
 		$text   = $this->settings->get( 'text_color', '#1e293b' );
@@ -154,12 +149,10 @@ class TOC_Core_Generator {
 
 		$inline_styles = "style=\"--toc-bg:{$bg}; --toc-border:{$border}; --toc-text:{$text}; --toc-link:{$link}; --toc-accent:{$accent};\"";
 
-		// Generate Nested Clean Markup Tree Structures
 		$tree_html       = '';
 		$current_depth   = 0;
-		$counters        = [ 0, 0, 0, 0, 0, 0, 0 ]; // H0 - H6 layers tracker
+		$counters        = [ 0, 0, 0, 0, 0, 0, 0 ];
 
-		// Identify absolute root level node parameter bounds
 		$min_level = 6;
 		foreach ( $tree as $node ) {
 			if ( $node['level'] < $min_level ) {
@@ -209,12 +202,12 @@ class TOC_Core_Generator {
 			'table-of-content-generator-container',
 			'toc-preset-' . $preset,
 			$is_sticky ? 'toc-runtime-sticky-active' : '',
+			$is_sticky ? 'toc-sticky-side-' . $sticky_side : '',
 			$is_highlight_ready ? 'toc-intersection-tracking' : ''
 		]);
 
 		$container_class_str = esc_attr( implode( ' ', $container_classes ) );
 
-		// Dynamic extraction via decoupled safe template isolation wrappers
 		ob_start();
 		include TOC_GENERATOR_PATH . 'templates/toc-template.php';
 		return ob_get_clean();

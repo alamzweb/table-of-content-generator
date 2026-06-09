@@ -138,15 +138,12 @@
 }
 
 /* --- PRESET LAYOUT VARIANTS MATRIX --- */
-
-/* Preset Framework: Modern SaaS */
 .toc-preset-modern {
     background-color: #f8fafc;
     border-color: #e2e8f0;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 }
 
-/* Preset Framework: Developer Docs (GitBook Style Architecture) */
 .toc-preset-documentation {
     border-left: 3px solid var(--toc-accent);
     border-radius: 4px 12px 12px 4px;
@@ -156,7 +153,6 @@
     border-left: 1px dashed var(--toc-border);
 }
 
-/* Preset Framework: Minimal Ultra Clean */
 .toc-preset-minimal {
     border: none;
     border-radius: 0;
@@ -167,20 +163,30 @@
 }
 .toc-preset-minimal .toc-header-navigation-wrapper { border-bottom: none; margin-bottom: 12px; padding-bottom: 0; }
 
-/* Preset Framework: Boxed Card Elegant Shadow Layout */
 .toc-preset-card {
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
     border-color: #f1f5f9;
 }
 
-/* --- PERSISTENT STICKY RUNTIME SIDEBAR ENGINE MATRIX --- */
+/* --- STICKY SIDEBAR ENGINE POSITION MATRIX --- */
 @media (min-width: 1025px) {
     .table-of-content-generator-container.toc-runtime-sticky-active {
         position: sticky;
         top: 40px;
         z-index: 99;
-        max-width: 320px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    /* When Sticky Position is set to Right side */
+    .table-of-content-generator-container.toc-runtime-sticky-active.toc-sticky-side-right {
         float: right;
         margin: 0 0 24px 24px;
+    }
+
+    /* When Sticky Position is set to Left side */
+    .table-of-content-generator-container.toc-runtime-sticky-active.toc-sticky-side-left {
+        float: left;
+        margin: 0 24px 24px 0;
     }
 }
