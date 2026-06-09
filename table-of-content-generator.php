@@ -15,28 +15,39 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-// Define core constants
-define( 'TOC_GENERATOR_VERSION', '1.0.0' );
-define( 'TOC_GENERATOR_FILE', __FILE__ );
-define( 'TOC_GENERATOR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'TOC_GENERATOR_URL', plugin_dir_url( __FILE__ ) );
+// 1. Define Core Constants Safely
+if ( ! defined( 'TOC_GENERATOR_VERSION' ) ) {
+	define( 'TOC_GENERATOR_VERSION', '1.0.0' );
+}
+if ( ! defined( 'TOC_GENERATOR_PATH' ) ) {
+	define( 'TOC_GENERATOR_PATH', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'TOC_GENERATOR_URL' ) ) {
+	define( 'TOC_GENERATOR_URL', plugin_dir_url( __FILE__ ) );
+}
 
-// Autoload core classes
-require_once TOC_GENERATOR_PATH . 'includes/class-plugin.php';
+// 2. Load Core Components using REQUIRE_ONCE (Prevents E_COMPILE_ERROR)
 require_once TOC_GENERATOR_PATH . 'includes/class-settings.php';
 require_once TOC_GENERATOR_PATH . 'includes/class-admin.php';
 require_once TOC_GENERATOR_PATH . 'includes/class-toc-generator.php';
-require_once TOC_GENERATOR_PATH . 'includes/class-shortcode.php';
-require_once TOC_GENERATOR_PATH . 'includes/class-gutenberg-block.php';
 
-/**
- * Initialize the core plugin framework.
- */
-function run_table_of_content_generator() {
-	$plugin = new TOC_Generator\Plugin();
-	$plugin->run();
+// 3. Initialize the components safely inside a single hook
+add_action( 'plugins_loaded', 'toc_generator_init_plugin' );
+
+function toc_generator_init_plugin() {
+	// Create the settings instance
+	$settings = new \TOC_Generator\Settings();
+
+	// Initialize Admin dashboard panels
+	if ( is_admin() ) {
+		$admin = new \TOC_Generator\Admin( $settings );
+		$admin->init();
+	}
+
+	// Initialize Frontend parsing engine
+	$frontend = new \TOC_Generator\TOC_Core_Generator( $settings );
+	$frontend->init();
 }
-run_table_of_content_generator();
