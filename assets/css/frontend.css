@@ -1,0 +1,186 @@
+/**
+ * Table of Content Generator Premium Frontend System Engine Styling Stylesheet
+ */
+.table-of-content-generator-container {
+    --toc-bg: #ffffff;
+    --toc-border: #e2e8f0;
+    --toc-text: #1e293b;
+    --toc-link: #2563eb;
+    --toc-accent: #3b82f6;
+    
+    background-color: var(--toc-bg);
+    border: 1px solid var(--toc-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 32px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+.table-of-content-generator-container *, 
+.table-of-content-generator-container *::before, 
+.table-of-content-generator-container *::after {
+    box-sizing: border-box;
+}
+
+/* Header layout structure blueprints */
+.toc-header-navigation-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--toc-border);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+}
+
+.toc-header-title-node {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--toc-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.structural-icon-accent {
+    color: var(--toc-accent);
+    transform: translateY(-1px);
+}
+
+.toc-collapse-trigger-element {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--toc-text);
+    opacity: 0.6;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.toc-collapse-trigger-element:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.toc-chevron-vector-icon {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsible state rules execution layout */
+.table-of-content-generator-container.toc-state-collapsed-active .toc-collapsible-wrapper-panel {
+    display: none;
+}
+.table-of-content-generator-container.toc-state-collapsed-active .toc-chevron-vector-icon {
+    transform: rotate(180deg);
+}
+.table-of-content-generator-container.toc-state-collapsed-active .text-state-expanded { display: none; }
+.table-of-content-generator-container:not(.toc-state-collapsed-active) .text-state-collapsed { display: none; }
+
+/* Structural Navigation Nodes Trees */
+.toc-root-navigation-node-list, .toc-nested-sub-node-layer {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.toc-nested-sub-node-layer {
+    padding-left: 16px !important;
+    border-left: 1px solid var(--toc-border);
+    margin-left: 6px !important;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.toc-nav-item {
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+    line-height: 1.5;
+}
+.toc-nav-item:last-child { margin-bottom: 0 !important; }
+
+.toc-navigation-link {
+    text-decoration: none !important;
+    color: var(--toc-text) !important;
+    opacity: 0.75;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.toc-navigation-link:hover {
+    color: var(--toc-link) !important;
+    opacity: 1;
+}
+
+/* Intersection observer focus tracking states */
+.toc-intersection-tracking .toc-navigation-link.toc-viewport-active-focus {
+    color: var(--toc-accent) !important;
+    opacity: 1 !important;
+    font-weight: 600;
+    padding-left: 2px;
+}
+
+/* Dynamic Tree Decimal numbering enhancements */
+.toc-node-index-number {
+    font-size: 12px;
+    opacity: 0.5;
+    font-variant-numeric: tabular-nums;
+    margin-right: 4px;
+}
+
+/* --- PRESET LAYOUT VARIANTS MATRIX --- */
+
+/* Preset Framework: Modern SaaS */
+.toc-preset-modern {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Preset Framework: Developer Docs (GitBook Style Architecture) */
+.toc-preset-documentation {
+    border-left: 3px solid var(--toc-accent);
+    border-radius: 4px 12px 12px 4px;
+    background-color: #ffffff;
+}
+.toc-preset-documentation .toc-nested-sub-node-layer {
+    border-left: 1px dashed var(--toc-border);
+}
+
+/* Preset Framework: Minimal Ultra Clean */
+.toc-preset-minimal {
+    border: none;
+    border-radius: 0;
+    padding: 16px 0;
+    background: transparent;
+    border-top: 1px solid var(--toc-border);
+    border-bottom: 1px solid var(--toc-border);
+}
+.toc-preset-minimal .toc-header-navigation-wrapper { border-bottom: none; margin-bottom: 12px; padding-bottom: 0; }
+
+/* Preset Framework: Boxed Card Elegant Shadow Layout */
+.toc-preset-card {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border-color: #f1f5f9;
+}
+
+/* --- PERSISTENT STICKY RUNTIME SIDEBAR ENGINE MATRIX --- */
+@media (min-width: 1025px) {
+    .table-of-content-generator-container.toc-runtime-sticky-active {
+        position: sticky;
+        top: 40px;
+        z-index: 99;
+        max-width: 320px;
+        float: right;
+        margin: 0 0 24px 24px;
+    }
+}
